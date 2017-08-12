@@ -2,7 +2,15 @@
 
 int main(void)
 {
-    gpio_led_start();
+    struct iot_gpio gpio_led;
+    int io_count = 0;
+    int gpio_num[8] = {44, 45, 46, 47, 110, 111, 112, 113};
+    int sleep_one_run = 300000;
+    int sleep_all_run = 2000000;
+
+    gpio_led_init(&gpio_led, io_count, gpio_num, sleep_one_run, sleep_all_run);
+    gpio_led_run(&gpio_led);
+    gpio_led_exit(&gpio_led);
 
     return 0;
 }

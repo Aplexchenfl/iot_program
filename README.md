@@ -7,9 +7,23 @@
     main   : gpio_led/main/main.c
 
     function :
-    void gpio_led_start(void);
-    当调用这个函数的时候，MIO上的gpio会先从小到大置为高电平，
-    然后再从大到小置为高电平，紧接着所有的gpio置为高电平两秒，最后全部置为低电平。
+    void gpio_led_init(struct iot_gpio *, int io_count, int *, int sleep_one_run, int sleep_all_run);
+    gpio led 初始化函数.
+
+    void gpio_led_control(int gpio_num, int gpio_out);
+    gpio led 控制函数。
+
+    void gpio_led_on(int gpio_num);
+    gpio 设置为高函数。
+
+    void gpio_led_off(int gpio_num);
+    gpio 设置为低函数。
+
+    void gpio_led_exit(struct iot_gpio *);
+    gpio 退出释放函数。
+
+    void gpio_led_run(struct iot_gpio *);
+    跑马灯函数。
 ```
 
 ###  i2c_tmp75
