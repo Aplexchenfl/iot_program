@@ -8,9 +8,8 @@ int main(void)
     int sleep_one_run = 300000;
     int sleep_all_run = 2000000;
 
-    gpio_led = gpio_led_create(io_count, gpio_num, sleep_one_run, sleep_all_run);
+    gpio_led = gpio_led_init(io_count, gpio_num, sleep_one_run, sleep_all_run);
 
-    gpio_led->init(gpio_led);
     gpio_led->run(gpio_led);
     gpio_led->exit(gpio_led);
 

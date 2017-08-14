@@ -29,19 +29,20 @@ struct iot_gpio
     int io_num[IO_COUNT_NUMBER];
     int sleep_one_run;
     int sleep_all_run;
-    void (* init)(struct iot_gpio *);
+    struct iot_gpio *(* init)(int io_count, int *, int sleep_one_run, int sleep_all_run);
     void (* control)(int gpio_num, int gpio_out);
     void (* on)(int gpio_num);
     void (* off)(int gpio_num);
     void (* exit)(struct iot_gpio *);
     void (* run)(struct iot_gpio *);
+    void (* run_lefttoright)(struct iot_gpio *);
+    void (* run_righttoleft)(struct iot_gpio *);
+    void (* run_all)(struct iot_gpio *);
+    void (* stop_all)(struct iot_gpio *);
 };
 
-/*   gpio_led_create : create An iot_gpio structure   */
-struct iot_gpio *gpio_led_create(int io_count, int *, int sleep_one_run, int sleep_all_run);
-
-/*  gpio_led_init : Init gpio  */
-void gpio_led_init(struct iot_gpio *gpio_led);
+/*   gpio_led_init : create and init An iot_gpio structure   */
+struct iot_gpio *gpio_led_init(int io_count, int *, int sleep_one_run, int sleep_all_run);
 
 /*   gpio_led control : set gpio(n) to 1 or 0   */
 void gpio_led_control(int gpio_num, int gpio_out);
@@ -57,5 +58,10 @@ void gpio_led_exit(struct iot_gpio *);
 
 /*   gpio_led run : run all gpio led   */
 void gpio_led_run(struct iot_gpio *);
+
+void gpio_led_run_lefttoright(struct iot_gpio *gpio_led);
+void gpio_led_run_righttoleft(struct iot_gpio *gpio_led);
+void gpio_led_run_all(struct iot_gpio *gpio_led);
+void gpio_led_stop_all(struct iot_gpio *gpio_led);
 
 #endif /* __GPIO_LED_H__ */

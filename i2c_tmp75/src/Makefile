@@ -1,10 +1,17 @@
 CC = arm-linux-gnueabihf-gcc
 AR = arm-linux-gnueabihf-ar
 
+NAME = i2c_tmp75
+SOURCE = $(NAME).c
+SHARD_LIB = lib$(NAME).so
+STATIC_LIB = lib$(NAME).o
+STATIC_LIB_A = lib$(NAME).a
+
+
 all:
-	$(CC)  i2c_tmp75.c   -fPIC -shared -o   libi2c_tmp75.so
-	$(CC)  -c   i2c_tmp75.c  -o  libi2c_tmp75.o -I ../include
-	$(AR)  rcv  libi2c_tmp75.a  libi2c_tmp75.o
+	$(CC)  $(SOURCE)   -fPIC -shared -o   $(SHARD_LIB)
+	$(CC)  -c   $(SOURCE)  -o  $(STATIC_LIB)  -I ../include
+	$(AR)  rcv   $(STATIC_LIB_A)   $(STATIC_LIB)
 
 clean:
 	rm *.so *.o *.a

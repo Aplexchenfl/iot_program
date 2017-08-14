@@ -10,7 +10,7 @@ STATIC_LIB_A = lib$(NAME).a
 
 all:
 	$(CC)  $(SOURCE)   -fPIC -shared -o   $(SHARD_LIB)
-	$(CC)  -c   gpio_led.c  -o  $(STATIC_LIB)  -I ../include
+	$(CC)  -c   $(SOURCE)  -o  $(STATIC_LIB)  -I ../include
 	$(AR)  rcv   $(STATIC_LIB_A)   $(STATIC_LIB)
 
 clean:

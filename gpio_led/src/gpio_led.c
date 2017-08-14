@@ -1,8 +1,9 @@
 #include "../include/gpio_led.h"
 
-struct iot_gpio *gpio_led_create(int io_count, int *gpio_num, int sleep_one_run, int sleep_all_run)
+struct iot_gpio *gpio_led_init(int io_count, int *gpio_num, int sleep_one_run, int sleep_all_run)
 {
     struct iot_gpio *gpio_led;
+    char command_export[128], command_out[128];
     int i;
 
     gpio_led = malloc(sizeof(struct iot_gpio));
@@ -26,15 +27,10 @@ struct iot_gpio *gpio_led_create(int io_count, int *gpio_num, int sleep_one_run,
     gpio_led->on = gpio_led_on;
     gpio_led->off = gpio_led_off;
     gpio_led->exit = gpio_led_exit;
-
-    return gpio_led;
-}
-
-void gpio_led_init(struct iot_gpio *gpio_led)
-{
-    int i;
-    char command_export[128], command_out[128];
-
+    gpio_led->run_lefttoright = gpio_led_run_lefttoright;
+    gpio_led->run_righttoleft = gpio_led_run_righttoleft;
+    gpio_led->run_all = gpio_led_run_all;
+    gpio_led->stop_all = gpio_led_stop_all;
 
     for (i = 0; i < gpio_led->io_count; i++)
     {
@@ -45,7 +41,9 @@ void gpio_led_init(struct iot_gpio *gpio_led)
         system(command_out);
     }
 
+    return gpio_led;
 }
+
 
 void gpio_led_control(int gpio_num, int gpio_out)
 {
@@ -74,9 +72,11 @@ void gpio_led_exit(struct iot_gpio *gpio_led)
         sprintf(command_unexport, "echo %d > /sys/class/gpio/unexport", gpio_led->io_num[i]);
         system(command_unexport);
     }
+
+    free(gpio_led);
 }
 
-void gpio_led_run(struct iot_gpio *gpio_led)
+void gpio_led_run_lefttoright(struct iot_gpio *gpio_led)
 {
     int i;
 
@@ -93,6 +93,11 @@ void gpio_led_run(struct iot_gpio *gpio_led)
     }
     gpio_led_off(gpio_led->io_num[i - 1]);
     usleep(gpio_led->sleep_one_run);
+}
+
+void gpio_led_run_righttoleft(struct iot_gpio *gpio_led)
+{
+    int i;
 
     for (i = (gpio_led->io_count - 1); i >= 0; i--)
     {
@@ -107,18 +112,35 @@ void gpio_led_run(struct iot_gpio *gpio_led)
     }
     gpio_led_off(gpio_led->io_num[i + 1]);
     usleep(gpio_led->sleep_one_run);
+}
+
+void gpio_led_run_all(struct iot_gpio *gpio_led)
+{
+    int i;
 
     for (i = 0; i < gpio_led->io_count; i++)
     {
         gpio_led_on(gpio_led->io_num[i]);
     }
+}
 
-    usleep(gpio_led->sleep_all_run);
+void gpio_led_stop_all(struct iot_gpio *gpio_led)
+{
+    int i;
 
     for (i = 0; i < gpio_led->io_count; i++)
     {
         gpio_led_off(gpio_led->io_num[i]);
     }
+}
+
+void gpio_led_run(struct iot_gpio *gpio_led)
+{
+    gpio_led_run_lefttoright(gpio_led);
+    gpio_led_run_righttoleft(gpio_led);
+    gpio_led_run_all(gpio_led);
+    usleep(gpio_led->sleep_all_run);
+    gpio_led_stop_all(gpio_led);
 }
 
 

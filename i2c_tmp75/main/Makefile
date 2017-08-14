@@ -1,11 +1,14 @@
 CC = arm-linux-gnueabihf-gcc
 
+NAME = i2c_tmp75
+
 all:
 	make -C ../src
-	$(CC)	  main.c -o read_tmp -L ../src/ -li2c_tmp75
-	$(CC)  	  main.c   ../src/i2c_tmp75.c  -o my_read_test
+	$(CC)	  main.c   -o $(NAME) -L ../src/ -l$(NAME)
+	$(CC)  	  main.c   ../src/$(NAME).c  -o my_$(NAME)
+	sudo cp my_$(NAME) /media/sf_VirtualBox   -rf
 
 clean:
-	rm read_tmp  my_read_test -rf
+	rm $(NAME)  my_$(NAME) -rf
 	make -C ../src clean
 
