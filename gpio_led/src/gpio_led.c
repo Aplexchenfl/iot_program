@@ -1,102 +1,124 @@
 #include "../include/gpio_led.h"
 
-void gpio_led_start(void)
+struct iot_gpio *gpio_led_create(int io_count, int *gpio_num, int sleep_one_run, int sleep_all_run)
 {
-    int u_sleep_time = 200000, all_led_time = 2000000;
+    struct iot_gpio *gpio_led;
+    int i;
 
-    /* Gpio init */
-    system("echo 44 > /sys/class/gpio/export");
-    system("echo 45 > /sys/class/gpio/export");
-    system("echo 46 > /sys/class/gpio/export");
-    system("echo 47 > /sys/class/gpio/export");
-    system("echo 110 > /sys/class/gpio/export");
-    system("echo 111 > /sys/class/gpio/export");
-    system("echo 112 > /sys/class/gpio/export");
-    system("echo 113 > /sys/class/gpio/export");
+    gpio_led = malloc(sizeof(struct iot_gpio));
+    if (gpio_led == NULL)
+        return NULL;
 
-    /* Set Gpio output mode  */
-    system("echo out > /sys/class/gpio/gpio44/direction");
-    system("echo out > /sys/class/gpio/gpio45/direction");
-    system("echo out > /sys/class/gpio/gpio46/direction");
-    system("echo out > /sys/class/gpio/gpio47/direction");
-    system("echo out > /sys/class/gpio/gpio110/direction");
-    system("echo out > /sys/class/gpio/gpio111/direction");
-    system("echo out > /sys/class/gpio/gpio112/direction");
-    system("echo out > /sys/class/gpio/gpio113/direction");
+    memset (gpio_led, 0, sizeof(struct iot_gpio));
 
-    /* Left --> Right  */
-    usleep(u_sleep_time);
-    system("echo 1 > /sys/class/gpio/gpio44/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio44/value");
-    system("echo 1 > /sys/class/gpio/gpio45/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio45/value");
-    system("echo 1 > /sys/class/gpio/gpio46/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio46/value");
-    system("echo 1 > /sys/class/gpio/gpio47/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio47/value");
-    system("echo 1 > /sys/class/gpio/gpio110/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio110/value");
-    system("echo 1 > /sys/class/gpio/gpio111/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio111/value");
-    system("echo 1 > /sys/class/gpio/gpio112/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio112/value");
-    system("echo 1 > /sys/class/gpio/gpio113/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio113/value");
+    gpio_led->io_count = io_count;
+    gpio_led->sleep_one_run = sleep_one_run;
+    gpio_led->sleep_all_run = sleep_all_run;
 
-    /* Right --> Left */
-    usleep(u_sleep_time);
-    system("echo 1 > /sys/class/gpio/gpio113/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio113/value");
-    system("echo 1 > /sys/class/gpio/gpio112/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio112/value");
-    system("echo 1 > /sys/class/gpio/gpio111/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio111/value");
-    system("echo 1 > /sys/class/gpio/gpio110/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio110/value");
-    system("echo 1 > /sys/class/gpio/gpio47/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio47/value");
-    system("echo 1 > /sys/class/gpio/gpio46/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio46/value");
-    system("echo 1 > /sys/class/gpio/gpio45/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio45/value");
-    system("echo 1 > /sys/class/gpio/gpio44/value");
-    usleep(u_sleep_time);
-    system("echo 0 > /sys/class/gpio/gpio44/value");
+    for (i = 0; i < gpio_led->io_count; i++)
+    {
+        gpio_led->io_num[i] = gpio_num[i];
+    }
 
-    /* All led run   */
-    usleep(u_sleep_time);
-    system("echo 1 > /sys/class/gpio/gpio44/value");
-    system("echo 1 > /sys/class/gpio/gpio45/value");
-    system("echo 1 > /sys/class/gpio/gpio46/value");
-    system("echo 1 > /sys/class/gpio/gpio47/value");
-    system("echo 1 > /sys/class/gpio/gpio110/value");
-    system("echo 1 > /sys/class/gpio/gpio111/value");
-    system("echo 1 > /sys/class/gpio/gpio112/value");
-    system("echo 1 > /sys/class/gpio/gpio113/value");
-    usleep(all_led_time);
+    gpio_led->init = gpio_led_init;
+    gpio_led->control = gpio_led_control;
+    gpio_led->run = gpio_led_run;
+    gpio_led->on = gpio_led_on;
+    gpio_led->off = gpio_led_off;
+    gpio_led->exit = gpio_led_exit;
 
-    /* exit */
-    system("echo 44 >  /sys/class/gpio/unexport");
-    system("echo 45 >  /sys/class/gpio/unexport");
-    system("echo 46 >  /sys/class/gpio/unexport");
-    system("echo 47 >  /sys/class/gpio/unexport");
-    system("echo 110 > /sys/class/gpio/unexport");
-    system("echo 111 > /sys/class/gpio/unexport");
-    system("echo 112 > /sys/class/gpio/unexport");
-    system("echo 113 > /sys/class/gpio/unexport");
+    return gpio_led;
 }
+
+void gpio_led_init(struct iot_gpio *gpio_led)
+{
+    int i;
+    char command_export[128], command_out[128];
+
+
+    for (i = 0; i < gpio_led->io_count; i++)
+    {
+        sprintf(command_export, "echo %d > /sys/class/gpio/export", gpio_led->io_num[i]);
+        system(command_export);
+
+        sprintf(command_out, "echo out > /sys/class/gpio/gpio%d/direction", gpio_led->io_num[i]);
+        system(command_out);
+    }
+
+}
+
+void gpio_led_control(int gpio_num, int gpio_out)
+{
+    char command[128];
+
+    sprintf(command, "echo %d > /sys/class/gpio/gpio%d/value", gpio_out, gpio_num);
+    system(command);
+}
+
+void gpio_led_on(int gpio_num)
+{
+    gpio_led_control(gpio_num, 1);
+}
+
+void gpio_led_off(int gpio_num)
+{
+    gpio_led_control(gpio_num, 0);
+}
+
+void gpio_led_exit(struct iot_gpio *gpio_led)
+{
+    int i ;
+    char command_unexport[128];
+    for (i = 0; i < gpio_led->io_count; i++)
+    {
+        sprintf(command_unexport, "echo %d > /sys/class/gpio/unexport", gpio_led->io_num[i]);
+        system(command_unexport);
+    }
+}
+
+void gpio_led_run(struct iot_gpio *gpio_led)
+{
+    int i;
+
+    for (i = 0; i < gpio_led->io_count; i++)
+    {
+        if (i == 0)
+            gpio_led_on(gpio_led->io_num[i]);
+        else
+        {
+            gpio_led_on(gpio_led->io_num[i]);
+            gpio_led_off(gpio_led->io_num[ i - 1 ]);
+        }
+        usleep(gpio_led->sleep_one_run);
+    }
+    gpio_led_off(gpio_led->io_num[i - 1]);
+    usleep(gpio_led->sleep_one_run);
+
+    for (i = (gpio_led->io_count - 1); i >= 0; i--)
+    {
+        if (i == (gpio_led->io_count - 1))
+            gpio_led_on(gpio_led->io_num[i]);
+        else
+        {
+            gpio_led_on(gpio_led->io_num[i]);
+            gpio_led_off(gpio_led->io_num[ i + 1 ]);
+        }
+        usleep(gpio_led->sleep_one_run);
+    }
+    gpio_led_off(gpio_led->io_num[i + 1]);
+    usleep(gpio_led->sleep_one_run);
+
+    for (i = 0; i < gpio_led->io_count; i++)
+    {
+        gpio_led_on(gpio_led->io_num[i]);
+    }
+
+    usleep(gpio_led->sleep_all_run);
+
+    for (i = 0; i < gpio_led->io_count; i++)
+    {
+        gpio_led_off(gpio_led->io_num[i]);
+    }
+}
+
+

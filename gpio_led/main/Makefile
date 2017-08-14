@@ -1,11 +1,14 @@
 CC = arm-linux-gnueabihf-gcc
 
+NAME = gpio_led
+
 all:
 	make -C ../src
-	$(CC)	  main.c   -o gpio_led -L ../src/ -lgpio_led
-	$(CC)  	  main.c   ../src/gpio_led.c  -o my_gpio_led
+	$(CC)	  main.c   -o $(NAME) -L ../src/ -l$(NAME)
+	$(CC)  	  main.c   ../src/$(NAME).c  -o my_$(NAME)
+	sudo cp my_$(NAME) /media/sf_VirtualBox   -rf
 
 clean:
-	rm gpio_led  my_gpio_led -rf
+	rm $(NAME)  my_$(NAME) -rf
 	make -C ../src clean
 
