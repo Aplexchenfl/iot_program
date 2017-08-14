@@ -13,6 +13,34 @@
 #include <errno.h>
 #include <unistd.h>
 
+#define TTY_NODE "/dev/ttyO1"
+#define NSPEED  9600
+#define NBIT    8
+#define NEVENT  'N'
+#define NSTOP   1
+#define COMMAND 0x55
+
+
+struct uart_us100
+{
+    char tty_node[20];
+    int nSpeed;
+    int nBits;
+    char nEvent;
+    int nStop;
+    int distance;
+    int command;
+    char read_val[2];
+
+    int (* read)(struct uart_us100 *);
+    void (* exit)(struct uart_us100 *);
+    int (* set_opt)(int fd, int nSpeed, int nBits, char nEvent, int nStop);
+};
+
+struct uart_us100 *uart_us100_init(char *tty_node, int nSpeed, int nBits, char nEvent, int nStop, int command);
+int uart_us100_read(struct uart_us100 *);
+void uart_us100_exit(struct uart_us100 *);
+
 int set_opt(int fd, int nSpeed, int nBits, char nEvent, int nStop);
 float read_dis(void);
 

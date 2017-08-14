@@ -1,5 +1,75 @@
 #include "../include/uart_us100.h"
 
+struct uart_us100 *uart_us100_init(char *tty_node, int nSpeed, int nBits, char nEvent, int nStop, int command)
+{
+    struct uart_us100 *us100;
+
+    us100 = malloc(sizeof(struct uart_us100));
+    if (!us100)
+        return NULL;
+
+    memset(us100, 0, sizeof(struct uart_us100));
+
+    strcpy(us100->tty_node, tty_node);
+    us100->nSpeed = nSpeed;
+    us100->nBits = nBits;
+    us100->nEvent = nEvent;
+    us100->nStop = nStop;
+    us100->command = command;
+
+    us100->read = uart_us100_read;
+    us100->exit = uart_us100_exit;
+    us100->set_opt = set_opt;
+
+    return us100;
+}
+
+int uart_us100_read(struct uart_us100 *us100)
+{
+    int retval, tty_fd, distant;
+
+    tty_fd = open(us100->tty_node, O_RDWR | O_NOCTTY | O_NDELAY);
+    if (tty_fd < 0)
+    {
+        perror("open tty error ");
+        return -1;
+    }
+
+    retval = set_opt(tty_fd, us100->nSpeed, us100->nBits, us100->nEvent, us100->nStop);
+    if (retval < 0)
+    {
+        perror("set error");
+        return -1;
+    }
+
+    retval = write(tty_fd, &(us100->command), sizeof(int));
+    if (retval < 0)
+    {
+        perror("write error");
+        return -1;
+    }
+
+    usleep(100000);
+
+    retval = read(tty_fd, us100->read_val, 2);
+    if (retval < 0)
+    {
+        perror("read errno");
+        return -1;
+    }
+
+    distant = us100->read_val[0] * 256 + us100->read_val[1] ;
+
+    close(tty_fd);
+
+    return distant;
+}
+
+void uart_us100_exit(struct uart_us100 *us100)
+{
+    free(us100);
+}
+
 int set_opt(int fd, int nSpeed, int nBits, char nEvent, int nStop)
 {
     struct termios newtio, oldtio;
@@ -83,50 +153,5 @@ int set_opt(int fd, int nSpeed, int nBits, char nEvent, int nStop)
     printf("set done!\n\r");
     return 0;
 }
-
-float read_dis(void)
-{
-    float distant = 0;
-    int tty_fd, retval;
-    int write_val = 0x55;
-    char read_val[2];
-
-    tty_fd = open("/dev/ttyO1", O_RDWR | O_NOCTTY | O_NDELAY);
-    if (tty_fd < 0)
-    {
-        perror("open tty error ");
-        return -1;
-    }
-
-    retval = set_opt(tty_fd, 9600, 8, 'N', 1);
-    if (retval < 0)
-    {
-        perror("set error");
-        return -1;
-    }
-
-    retval = write(tty_fd, &write_val, sizeof(int));
-    if (retval < 0)
-    {
-        perror("write error");
-        return -1;
-    }
-
-    usleep(100000);
-
-    retval = read(tty_fd, read_val, 2);
-    if (retval < 0)
-    {
-        perror("read errno");
-        return -1;
-    }
-
-    distant = read_val[0] * 256 + read_val[1] ;
-
-    close(tty_fd);
-
-    return distant;
-}
-
 
 
