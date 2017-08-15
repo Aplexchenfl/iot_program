@@ -42,9 +42,6 @@ float tmp75_read(struct i2c_tmp75 *tmp75)
         n *= 10;
     }
 
-    //tmp75->temperature = ((float )tmp[4] - 48) / 1000 + ((float )tmp[3] - 48) / 100 +
-    //    ((float )tmp[2] - 48) / 10 + ((float )tmp[1] - 48) + ((float )tmp[0] - 48) * 10 ;
-
     close(fd);
 
     return tmp75->temperature;
