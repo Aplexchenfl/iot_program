@@ -4,7 +4,7 @@ struct device_detect *device_detect_init(char *usb_keyboard_name, int usb_keyboa
 {
     struct device_detect *input_detect;
 
-    input_detect = malloc(sizeof(struct device_detect));
+    input_detect = (struct device_detect *)malloc(sizeof(struct device_detect));
     if (!input_detect)
         return NULL;
 

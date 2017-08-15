@@ -6,7 +6,7 @@ struct iot_gpio *gpio_led_init(int io_count, int *gpio_num, int sleep_one_run, i
     char command_export[128], command_out[128];
     int i;
 
-    gpio_led = malloc(sizeof(struct iot_gpio));
+    gpio_led = (struct iot_gpio *)malloc(sizeof(struct iot_gpio));
     if (gpio_led == NULL)
         return NULL;
 

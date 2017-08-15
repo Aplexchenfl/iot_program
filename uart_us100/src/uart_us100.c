@@ -4,7 +4,7 @@ struct uart_us100 *uart_us100_init(char *tty_node, int nSpeed, int nBits, char n
 {
     struct uart_us100 *us100;
 
-    us100 = malloc(sizeof(struct uart_us100));
+    us100 = (struct uart_us100 *)malloc(sizeof(struct uart_us100));
     if (!us100)
         return NULL;
 
