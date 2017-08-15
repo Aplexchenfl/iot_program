@@ -29,13 +29,13 @@ struct i2c_tmp75
     char i2c_dev[128];
     char tmp75_output_dev[128];
 
-    struct i2c_tmp75 *(* init)(int slave_register, char *i2c_dev, char *tmp75_output_dev);
+    struct i2c_tmp75 *(* init)(void);
     float (* read)(struct i2c_tmp75 *);
     void (* exit)(struct i2c_tmp75 *);
 };
 
 /* creare An i2c_tmp75 temperature structure and init it */
-struct i2c_tmp75 *tmp75_init(int slave_register, char *i2c_dev, char *tmp75_output_dev);
+struct i2c_tmp75 *tmp75_init(void);
 /* read the temperature than return it */
 float tmp75_read(struct i2c_tmp75 *);
 /* free i2c_tmp75  */

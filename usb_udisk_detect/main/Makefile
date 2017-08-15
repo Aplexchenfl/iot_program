@@ -1,6 +1,6 @@
 CC = arm-linux-gnueabihf-gcc
 
-NAME = input_detect
+NAME = usb_udisk_detect
 
 all:
 	make -C ../src

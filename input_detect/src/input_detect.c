@@ -1,6 +1,6 @@
 #include "../include/input_detect.h"
 
-struct device_detect *device_detect_init(char *usb_keyboard_name, int usb_keyboard_name_size, char *usb_mouse_name, int usb_mouse_name_size, char *touch_screen_name, int touch_screen_name_size, char *detect_path)
+struct device_detect *device_detect_init(void)
 {
     struct device_detect *input_detect;
 
@@ -10,14 +10,14 @@ struct device_detect *device_detect_init(char *usb_keyboard_name, int usb_keyboa
 
     memset(input_detect, 0, sizeof(struct device_detect));
 
-    input_detect->usb_keyboard_name_size = usb_keyboard_name_size;
-    input_detect->usb_mouse_name_size = usb_mouse_name_size;
-    input_detect->touch_screen_name_size = touch_screen_name_size;
+    input_detect->usb_keyboard_name_size = USB_KEYBOARD_NAME_SIZE;
+    input_detect->usb_mouse_name_size = USB_MOUSE_NAME_SIZE;
+    input_detect->touch_screen_name_size = TOUCH_SCREEN_NAME_SIZE;
 
-    strcpy(input_detect->usb_keyboard_name, usb_keyboard_name);
-    strcpy(input_detect->usb_mouse_name, usb_mouse_name);
-    strcpy(input_detect->touch_screen_name, touch_screen_name);
-    strcpy(input_detect->detect_path, detect_path);
+    strcpy(input_detect->usb_keyboard_name, USB_KEYBOARD_NAME);
+    strcpy(input_detect->usb_mouse_name, USB_MOUSE_NAME);
+    strcpy(input_detect->touch_screen_name, TOUCH_SCREEN_NAME);
+    strcpy(input_detect->detect_path, INPUT_DEVICE);
 
     input_detect->init = device_detect_init;
     input_detect->detect_usb_keyboard = detect_usb_keyboard;
@@ -32,7 +32,7 @@ struct device_detect *device_detect_init(char *usb_keyboard_name, int usb_keyboa
 int detece_spe_device(char *device_name, char *path, int device_name_size)
 {
     char tmp[BUF_SIZE], *tmp_buf = tmp;
-    int fd, retval, detect_num = 0, i = 0;
+    int fd, retval, detect_num = 0;
 
 
     fd = open(path, O_RDONLY);

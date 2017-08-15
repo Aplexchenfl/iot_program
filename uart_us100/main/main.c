@@ -5,7 +5,7 @@ int main(void)
     float read_dis_num = 0;
     struct uart_us100 *us100;
 
-    us100 = uart_us100_init(TTY_NODE, NSPEED, NBIT, NEVENT, NSTOP, COMMAND);
+    us100 = uart_us100_init();
     read_dis_num = us100->read(us100);
     us100->exit(us100);
 

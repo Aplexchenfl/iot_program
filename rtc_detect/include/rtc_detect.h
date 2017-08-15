@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <linux/rtc.h>
 #include <sys/ioctl.h>
 #include <sys/time.h>
@@ -13,6 +14,27 @@
 #include <time.h>
 
 #define RTC_DEVICE  "/dev/rtc0"
+
+#define MIN_TO_SEC  60
+#define HOUR_TO_SEC  (MIN_TO_SEC*60)
+#define DAY_TO_SEC   (HOUR_TO_SEC*24);
+
+struct rtc_detect
+{
+    char rtc_device[32];
+    struct rtc_time rtc_tm;
+
+    int (* read)(struct rtc_detect *rtc_det);
+    void (* exit)(struct rtc_detect *rtc_det);
+    unsigned long (* read_timestamp)(void);
+    void (* display)(struct rtc_detect *rtc_det);
+};
+
+struct rtc_detect *rtc_detect_init(void);
+int rtc_detect_read(struct rtc_detect *rtc_det);
+unsigned long rtc_detect_read_timestamp(void);
+void rtc_detect_display(struct rtc_detect *rtc_det);
+void rtc_detect_exit(struct rtc_detect *rtc_det);
 
 unsigned int read_rtc_time(void);
 

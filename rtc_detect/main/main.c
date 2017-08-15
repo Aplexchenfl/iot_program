@@ -2,9 +2,16 @@
 
 int main(void)
 {
-    unsigned int count_time = read_rtc_time();
+    struct rtc_detect *rtc_det;
+    int retval;
 
-    printf("%ld\n", count_time);
+    rtc_det = rtc_detect_init();
+    retval = rtc_det->read(rtc_det);
+    if (retval < 0)
+        return -1;
+    rtc_det->display(rtc_det);
+    printf("timestamp : %lu \n", rtc_det->read_timestamp());
+    rtc_det->exit(rtc_det);
 
     return 0;
 }

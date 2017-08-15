@@ -10,6 +10,8 @@ all:
 	make -C ../src
 	$(CC) main.c -o $(TARGET) -L ../src/ -l$(LIB)
 	arm-linux-gnueabihf-gcc $(SRC)   $(SRC1) -o   $(TARGET1)
+
+install:
 	sudo cp $(TARGET1)  /media/sf_VirtualBox/ -rf
 	sync
 

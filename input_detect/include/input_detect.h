@@ -30,7 +30,7 @@ struct device_detect
     int touch_screen_name_size;
     char detect_path[32];
 
-    struct device_detect *(* init)(char *usb_keyboard_name, int usb_keyboard_name_size, char *usb_mouse_name, int usb_mouse_name_size, char *touch_screen_name, int touch_screen_name_size, char *detect_path);
+    struct device_detect *(* init)(void);
     int (* detect_usb_keyboard)(struct device_detect *);
     int (* detect_usb_mouse)(struct device_detect *);
     int (* detect_touch_screen)(struct device_detect *);
@@ -38,7 +38,7 @@ struct device_detect
     void (* exit)(struct device_detect *);
 };
 
-struct device_detect *device_detect_init(char *usb_keyboard_name, int usb_keyboard_name_size, char *usb_mouse_name, int usb_mouse_name_size, char *touch_screen_name, int touch_screen_name_size, char *detect_path);
+struct device_detect *device_detect_init(void);
 int detece_spe_device(char *device_name, char *path, int device_name_size);
 int detect_usb_keyboard(struct device_detect *input_detect);
 int detect_usb_mouse(struct device_detect *input_detect);

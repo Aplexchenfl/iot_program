@@ -1,6 +1,6 @@
 #include "../include/i2c_tmp75.h"
 
-struct i2c_tmp75 *tmp75_init(int slave_register, char *i2c_dev, char *tmp75_output_dev)
+struct i2c_tmp75 *tmp75_init(void)
 {
     struct i2c_tmp75 *tmp75;
 
@@ -11,9 +11,9 @@ struct i2c_tmp75 *tmp75_init(int slave_register, char *i2c_dev, char *tmp75_outp
     memset(tmp75, 0, sizeof(struct i2c_tmp75));
 
     tmp75->temperature = 0;
-    tmp75->slave_register = slave_register;
-    strcpy(tmp75->i2c_dev, i2c_dev);
-    strcpy(tmp75->tmp75_output_dev, tmp75_output_dev);
+    tmp75->slave_register = TMP75_SLAVE_REG;
+    strcpy(tmp75->i2c_dev, TMP75_I2C_DEV);
+    strcpy(tmp75->tmp75_output_dev, TMP75_OUTPUT_DEV);
 
     tmp75->init = tmp75_init;
     tmp75->read = tmp75_read;

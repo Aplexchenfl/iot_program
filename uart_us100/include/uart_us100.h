@@ -37,7 +37,7 @@ struct uart_us100
     int (* set_opt)(int fd, int nSpeed, int nBits, char nEvent, int nStop);
 };
 
-struct uart_us100 *uart_us100_init(char *tty_node, int nSpeed, int nBits, char nEvent, int nStop, int command);
+struct uart_us100 *uart_us100_init(void);
 int uart_us100_read(struct uart_us100 *);
 void uart_us100_exit(struct uart_us100 *);
 

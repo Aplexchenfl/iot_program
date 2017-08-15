@@ -1,6 +1,6 @@
 #include "../include/uart_us100.h"
 
-struct uart_us100 *uart_us100_init(char *tty_node, int nSpeed, int nBits, char nEvent, int nStop, int command)
+struct uart_us100 *uart_us100_init(void)
 {
     struct uart_us100 *us100;
 
@@ -10,12 +10,12 @@ struct uart_us100 *uart_us100_init(char *tty_node, int nSpeed, int nBits, char n
 
     memset(us100, 0, sizeof(struct uart_us100));
 
-    strcpy(us100->tty_node, tty_node);
-    us100->nSpeed = nSpeed;
-    us100->nBits = nBits;
-    us100->nEvent = nEvent;
-    us100->nStop = nStop;
-    us100->command = command;
+    strcpy(us100->tty_node, TTY_NODE);
+    us100->nSpeed = NSPEED;
+    us100->nBits = NBIT;
+    us100->nEvent = NEVENT;
+    us100->nStop = NSTOP;
+    us100->command = COMMAND;
 
     us100->read = uart_us100_read;
     us100->exit = uart_us100_exit;

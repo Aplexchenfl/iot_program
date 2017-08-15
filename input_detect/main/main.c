@@ -6,7 +6,7 @@ int main(void)
 
     struct device_detect *input_device;
 
-    input_device = device_detect_init(USB_KEYBOARD_NAME, USB_KEYBOARD_NAME_SIZE, USB_MOUSE_NAME, USB_MOUSE_NAME_SIZE, TOUCH_SCREEN_NAME, TOUCH_SCREEN_NAME_SIZE, INPUT_DEVICE);
+    input_device = device_detect_init();
 
     result = input_device->detect_usb_keyboard(input_device);
     if (result)

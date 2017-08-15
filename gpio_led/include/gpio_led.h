@@ -29,7 +29,7 @@ struct iot_gpio
     int io_num[IO_COUNT_NUMBER];
     int sleep_one_run;
     int sleep_all_run;
-    struct iot_gpio *(* init)(int io_count, int *, int sleep_one_run, int sleep_all_run);
+    struct iot_gpio *(* init)(void);
     void (* control)(int gpio_num, int gpio_out);
     void (* on)(int gpio_num);
     void (* off)(int gpio_num);
@@ -42,7 +42,7 @@ struct iot_gpio
 };
 
 /*   gpio_led_init : create and init An iot_gpio structure   */
-struct iot_gpio *gpio_led_init(int io_count, int *, int sleep_one_run, int sleep_all_run);
+struct iot_gpio *gpio_led_init(void);
 
 /*   gpio_led control : set gpio(n) to 1 or 0   */
 void gpio_led_control(int gpio_num, int gpio_out);

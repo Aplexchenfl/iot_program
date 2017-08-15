@@ -1,10 +1,14 @@
 #include "../include/gpio_led.h"
 
-struct iot_gpio *gpio_led_init(int io_count, int *gpio_num, int sleep_one_run, int sleep_all_run)
+struct iot_gpio *gpio_led_init()
 {
     struct iot_gpio *gpio_led;
     char command_export[128], command_out[128];
     int i;
+    int io_count = 8;
+    int gpio_num[8] = {44, 45, 46, 47, 110, 111, 112, 113};
+    int sleep_one_run = 300000;
+    int sleep_all_run = 2000000;
 
     gpio_led = (struct iot_gpio *)malloc(sizeof(struct iot_gpio));
     if (gpio_led == NULL)

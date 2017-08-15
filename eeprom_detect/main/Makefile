@@ -1,6 +1,6 @@
 CC = arm-linux-gnueabihf-gcc
 
-NAME = input_detect
+NAME = eeprom_detect
 
 all:
 	make -C ../src
@@ -9,6 +9,7 @@ all:
 
 install:
 	sudo cp my_$(NAME) /media/sf_VirtualBox   -rf
+	sync
 
 clean:
 	rm $(NAME)  my_$(NAME) -rf
