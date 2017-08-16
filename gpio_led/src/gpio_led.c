@@ -30,7 +30,7 @@ struct iot_gpio *gpio_led_init()
     gpio_led->run = gpio_led_run;
     gpio_led->on = gpio_led_on;
     gpio_led->off = gpio_led_off;
-    gpio_led->exit = gpio_led_exit;
+    gpio_led->release = gpio_led_release;
     gpio_led->run_lefttoright = gpio_led_run_lefttoright;
     gpio_led->run_righttoleft = gpio_led_run_righttoleft;
     gpio_led->run_all = gpio_led_run_all;
@@ -67,7 +67,7 @@ void gpio_led_off(int gpio_num)
     gpio_led_control(gpio_num, 0);
 }
 
-void gpio_led_exit(struct iot_gpio *gpio_led)
+void gpio_led_release(struct iot_gpio *gpio_led)
 {
     int i ;
     char command_unexport[128];

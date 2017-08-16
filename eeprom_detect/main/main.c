@@ -17,7 +17,7 @@ int main(void)
     else
         printf(" detect eeprom errno ...\n");
 
-    eeprom_det->exit(eeprom_det);
+    eeprom_det->release(eeprom_det);
 
     return 0;
 }

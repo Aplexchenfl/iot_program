@@ -17,7 +17,7 @@ struct eeprom_detect *eeprom_detect_init()
     eeprom_det->read = eeprom_detect_read;
     eeprom_det->write = eeprom_detect_write;
     eeprom_det->result = eeprom_detect_result;
-    eeprom_det->exit = eeprom_detect_exit;
+    eeprom_det->release = eeprom_detect_release;
 
     return eeprom_det;
 }
@@ -70,7 +70,7 @@ int eeprom_detect_result(struct eeprom_detect *eeprom_det)
     return strcmp(eeprom_det->read_data, eeprom_det->write_data);
 }
 
-void eeprom_detect_exit(struct eeprom_detect *eeprom_det)
+void eeprom_detect_release(struct eeprom_detect *eeprom_det)
 {
     free(eeprom_det);
 }

@@ -31,7 +31,7 @@ struct i2c_tmp75
 
     struct i2c_tmp75 *(* init)(void);
     float (* read)(struct i2c_tmp75 *);
-    void (* exit)(struct i2c_tmp75 *);
+    void (* release)(struct i2c_tmp75 *);
 };
 
 /* creare An i2c_tmp75 temperature structure and init it */
@@ -39,7 +39,6 @@ struct i2c_tmp75 *tmp75_init(void);
 /* read the temperature than return it */
 float tmp75_read(struct i2c_tmp75 *);
 /* free i2c_tmp75  */
-void tmp75_exit(struct i2c_tmp75 *);
-
+void tmp75_release(struct i2c_tmp75 *);
 
 #endif /* __APLEX_I2C_TMP75__  */

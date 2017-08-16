@@ -17,7 +17,7 @@
  * control : set gpio(n) to 1 or 0
  * on : set gpio(n) to 1
  * off : set gpio(n) to 0
- * exit : gpio unexport function
+ * release : gpio unexport function
  * run : run all gpio led
  */
 
@@ -33,7 +33,7 @@ struct iot_gpio
     void (* control)(int gpio_num, int gpio_out);
     void (* on)(int gpio_num);
     void (* off)(int gpio_num);
-    void (* exit)(struct iot_gpio *);
+    void (* release)(struct iot_gpio *);
     void (* run)(struct iot_gpio *);
     void (* run_lefttoright)(struct iot_gpio *);
     void (* run_righttoleft)(struct iot_gpio *);
@@ -53,8 +53,8 @@ void gpio_led_on(int gpio_num);
 /*   gpio_led off : set gpio(n) to 0   */
 void gpio_led_off(int gpio_num);
 
-/*   gpio_led exit : gpio unexport function   */
-void gpio_led_exit(struct iot_gpio *);
+/*   gpio_led release : gpio unexport function   */
+void gpio_led_release(struct iot_gpio *);
 
 /*   gpio_led run : run all gpio led   */
 void gpio_led_run(struct iot_gpio *);

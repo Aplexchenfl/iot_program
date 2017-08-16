@@ -23,13 +23,13 @@ struct device_detect *device_detect_init(void)
     input_detect->detect_usb_keyboard = detect_usb_keyboard;
     input_detect->detect_usb_mouse = detect_usb_mouse;
     input_detect->detect_touch_screen = detect_touch_screen;
-    input_detect->detece_spe_device = detece_spe_device;
-    input_detect->exit = detect_exit;
+    input_detect->detect_spe_device = detect_spe_device;
+    input_detect->release = detect_release;
 
     return input_detect;
 }
 
-int detece_spe_device(char *device_name, char *path, int device_name_size)
+int detect_spe_device(char *device_name, char *path, int device_name_size)
 {
     char tmp[BUF_SIZE], *tmp_buf = tmp;
     int fd, retval, detect_num = 0;
@@ -69,20 +69,20 @@ int detece_spe_device(char *device_name, char *path, int device_name_size)
 
 int detect_usb_keyboard(struct device_detect *input_detect)
 {
-    return detece_spe_device(input_detect->usb_keyboard_name, input_detect->detect_path, input_detect->usb_keyboard_name_size);
+    return detect_spe_device(input_detect->usb_keyboard_name, input_detect->detect_path, input_detect->usb_keyboard_name_size);
 }
 
 int detect_usb_mouse(struct device_detect *input_detect)
 {
-    return detece_spe_device(input_detect->usb_mouse_name, input_detect->detect_path, input_detect->usb_mouse_name_size);
+    return detect_spe_device(input_detect->usb_mouse_name, input_detect->detect_path, input_detect->usb_mouse_name_size);
 }
 
 int detect_touch_screen(struct device_detect *input_detect)
 {
-    return detece_spe_device(input_detect->touch_screen_name, input_detect->detect_path, input_detect->touch_screen_name_size);
+    return detect_spe_device(input_detect->touch_screen_name, input_detect->detect_path, input_detect->touch_screen_name_size);
 }
 
-void detect_exit(struct device_detect *input_detect)
+void detect_release(struct device_detect *input_detect)
 {
     free(input_detect);
 }

@@ -25,18 +25,21 @@ struct rtc_detect
     struct rtc_time rtc_tm;
 
     int (* read)(struct rtc_detect *rtc_det);
-    void (* exit)(struct rtc_detect *rtc_det);
+    void (* release)(struct rtc_detect *rtc_det);
     unsigned long (* read_timestamp)(void);
     void (* display)(struct rtc_detect *rtc_det);
 };
 
+/* Alloc and init rtc_detect structure  */
 struct rtc_detect *rtc_detect_init(void);
+/* Read rtc data   */
 int rtc_detect_read(struct rtc_detect *rtc_det);
+/* return timestamp */
 unsigned long rtc_detect_read_timestamp(void);
+/* Display time  */
 void rtc_detect_display(struct rtc_detect *rtc_det);
-void rtc_detect_exit(struct rtc_detect *rtc_det);
-
-unsigned int read_rtc_time(void);
+/* release function */
+void rtc_detect_release(struct rtc_detect *rtc_det);
 
 #endif /* __TIME_DETECT_H__ */
 

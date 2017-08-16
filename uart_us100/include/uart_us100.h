@@ -37,11 +37,13 @@ struct uart_us100
     int (* set_opt)(int fd, int nSpeed, int nBits, char nEvent, int nStop);
 };
 
+/* Alloc uart_us100 structure  */
 struct uart_us100 *uart_us100_init(void);
+/* Read us100 distant  */
 int uart_us100_read(struct uart_us100 *);
+/* Release and exit function  */
 void uart_us100_exit(struct uart_us100 *);
-
+/* set tty attribute  */
 int set_opt(int fd, int nSpeed, int nBits, char nEvent, int nStop);
-float read_dis(void);
 
 #endif

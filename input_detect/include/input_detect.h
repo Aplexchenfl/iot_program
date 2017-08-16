@@ -34,15 +34,21 @@ struct device_detect
     int (* detect_usb_keyboard)(struct device_detect *);
     int (* detect_usb_mouse)(struct device_detect *);
     int (* detect_touch_screen)(struct device_detect *);
-    int (* detece_spe_device)(char *device_name, char *path, int device_name_size);
-    void (* exit)(struct device_detect *);
+    int (* detect_spe_device)(char *device_name, char *path, int device_name_size);
+    void (* release)(struct device_detect *);
 };
 
+/* Alloc An device_detect structure  */
 struct device_detect *device_detect_init(void);
-int detece_spe_device(char *device_name, char *path, int device_name_size);
+/* detect specific device  */
+int detect_spe_device(char *device_name, char *path, int device_name_size);
+/* detect usb keyboard */
 int detect_usb_keyboard(struct device_detect *input_detect);
+/* detect usb mouse */
 int detect_usb_mouse(struct device_detect *input_detect);
+/* detect touch screen  */
 int detect_touch_screen(struct device_detect *input_detect);
-void detect_exit(struct device_detect *input_detect);
+/* release function  */
+void detect_release(struct device_detect *input_detect);
 
 #endif /* __INPUT_DETECT_H__ */

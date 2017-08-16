@@ -17,7 +17,7 @@ struct i2c_tmp75 *tmp75_init(void)
 
     tmp75->init = tmp75_init;
     tmp75->read = tmp75_read;
-    tmp75->exit = tmp75_exit;
+    tmp75->release = tmp75_release;
 
     return tmp75;
 }
@@ -47,7 +47,7 @@ float tmp75_read(struct i2c_tmp75 *tmp75)
     return tmp75->temperature;
 }
 
-void tmp75_exit(struct i2c_tmp75 *tmp75)
+void tmp75_release(struct i2c_tmp75 *tmp75)
 {
     free(tmp75);
 }

@@ -28,6 +28,7 @@ int main(void)
     else
         printf(" No touch screen ---\n");
 
+    input_device->release(input_device);
 
     return 0;
 }

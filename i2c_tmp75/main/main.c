@@ -7,7 +7,7 @@ int main(void)
 
     tmp75 = tmp75_init();
     tmp = tmp75->read(tmp75);
-    tmp75->exit(tmp75);
+    tmp75->release(tmp75);
 
     printf("temperature : %f\n", tmp);
 

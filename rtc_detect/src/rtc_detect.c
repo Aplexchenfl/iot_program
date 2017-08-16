@@ -15,7 +15,7 @@ struct rtc_detect *rtc_detect_init(void)
     rtc_det->read = rtc_detect_read;
     rtc_det->display = rtc_detect_display;
     rtc_det->read_timestamp = rtc_detect_read_timestamp;
-    rtc_det->exit = rtc_detect_exit;
+    rtc_det->release = rtc_detect_release;
 
     return rtc_det;
 }
@@ -50,7 +50,7 @@ void rtc_detect_display(struct rtc_detect *rtc_det)
             rtc_det->rtc_tm.tm_hour, rtc_det->rtc_tm.tm_min, rtc_det->rtc_tm.tm_sec);
 }
 
-void rtc_detect_exit(struct rtc_detect *rtc_det)
+void rtc_detect_release(struct rtc_detect *rtc_det)
 {
     free(rtc_det);
 }

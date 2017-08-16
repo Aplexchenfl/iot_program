@@ -25,9 +25,13 @@ struct usb_udisk_detect
     int (* release)(struct usb_udisk_detect *usb_udisk);
 };
 
+/* Alloc usb_udisk_detect structure  */
 struct usb_udisk_detect *usb_udisk_detect_init(void);
+/* return usb udisk1 detect result  */
 int usb_udisk1_detect_result(struct usb_udisk_detect *usb_udisk);
+/* return usb udisk1 detect result  */
 int usb_udisk2_detect_result(struct usb_udisk_detect *usb_udisk);
+/* release function  */
 void usb_udisk_detect_release(struct usb_udisk_detect *usb_udisk);
 
 #endif  /* __USB_UDISK_DETECT_H__  */

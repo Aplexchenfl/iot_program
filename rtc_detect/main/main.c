@@ -11,7 +11,7 @@ int main(void)
         return -1;
     rtc_det->display(rtc_det);
     printf("timestamp : %lu \n", rtc_det->read_timestamp());
-    rtc_det->exit(rtc_det);
+    rtc_det->release(rtc_det);
 
     return 0;
 }

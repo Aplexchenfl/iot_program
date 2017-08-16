@@ -7,7 +7,7 @@ int main(void)
     gpio_led = gpio_led_init();
 
     gpio_led->run(gpio_led);
-    gpio_led->exit(gpio_led);
+    gpio_led->release(gpio_led);
 
     return 0;
 }
