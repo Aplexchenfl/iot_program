@@ -8,6 +8,7 @@ all:
 	make -C  input_detect/main all
 	make -C  eeprom_detect/main all
 	make -C  usb_udisk_detect/main all
+	make -C  buzzer_detect/main all
 
 install:all
 	make -C  gpio_led/main install
@@ -17,6 +18,7 @@ install:all
 	make -C  input_detect/main install
 	make -C  eeprom_detect/main install
 	make -C  usb_udisk_detect/main install
+	make -C  buzzer_detect/main  install
 
 
 clean:
@@ -27,5 +29,6 @@ clean:
 	make -C  input_detect/main clean
 	make -C  eeprom_detect/main clean
 	make -C  usb_udisk_detect/main clean
+	make -C  buzzer_detect/main clean
 
 
